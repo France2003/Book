@@ -1,0 +1,31 @@
+
+body{
+    background-color: #F5F5FA;
+}
+footer{
+    box-shadow: rgba(50, 50, 93, 0.25) -2px -4px 12px -2px, rgb(223 61 61 / 30%) 0px 3px 7px -3px;
+}
+.login{
+    background-image: url('https://png.pngtree.com/background/20210711/original/pngtree-simple-and-stylish-reading-time-picture-image_1082922.jpg');
+    background-size: cover;
+}
+.swiper-button-prev-custom, .swiper-button-next-custom {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    transform: translateY(-50%);
+}
+
+.swiper-button-prev-custom {
+    left: 410px;
+    top:250px
+}
+
+.swiper-button-next-custom {
+    right: 10px;
+}

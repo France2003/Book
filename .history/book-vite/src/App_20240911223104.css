@@ -1,0 +1,7 @@
+#root {
+    background: var(--body-color);
+    /* color: var(--text-color); */
+}
+body{
+    background-color: aqua;
+}

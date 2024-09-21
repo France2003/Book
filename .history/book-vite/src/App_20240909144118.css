@@ -1,0 +1,9 @@
+/* index.css */
+
+.cart .ant-card {
+  border-radius: 8px;
+}
+
+.cart .ant-card-actions {
+  margin-top: 10px;
+}

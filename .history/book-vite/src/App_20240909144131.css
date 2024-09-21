@@ -1,0 +1,19 @@
+/* index.css */
+
+.cart .ant-card {
+  border-radius: 8px;
+}
+
+.cart .ant-card-actions {
+  margin-top: 10px;
+}
+/* index.css */
+
+.book-detail {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.book-detail .ant-card {
+  border-radius: 8px;
+}

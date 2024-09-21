@@ -1,0 +1,119 @@
+/* index.css */
+/* index.css */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #001529;
+  padding: 0 20px;
+}
+.main-layout {
+  min-height: 100vh; /* Đảm bảo chiều cao tối thiểu cho toàn bộ trang */
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  padding: 24px;
+  flex-grow: 1; /* Đảm bảo nội dung chiếm hết chiều cao còn lại giữa header và footer */
+}
+
+.ant-layout-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  background-color: #001529;
+}
+/* Checkout.css */
+.checkout-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.checkout-form {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.checkout-summary {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+  background-color: #fafafa;
+}
+
+.total-amount {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.ant-layout-footer {
+  text-align: center;
+  padding: 12px 50px;
+  background-color: #f0f2f5;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.ant-btn {
+  margin-left: 10px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f2f5;
+}
+
+h1 {
+  color: #333;
+  font-size: 24px;
+}
+
+a {
+  color: #1890ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.cart .ant-card {
+  border-radius: 8px;
+}
+
+.cart .ant-card-actions {
+  margin-top: 10px;
+}
+/* index.css */
+
+.book-detail {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.book-detail .ant-card {
+  border-radius: 8px;
+}
+/* index.css */
+
+.book-list .ant-card {
+  border-radius: 8px;
+}
+
+.book-list .ant-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
