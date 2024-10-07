@@ -1,0 +1,178 @@
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { Book } from '../types';
+import { Card, List, Select, Input, Pagination } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import { Link, useParams } from 'react-router-dom';
+import BookCategory from './BookCategory'; // Import component BookCategory
+import SwiperGallery from './SwiperGallery';
+import SmallAdModal from './SmallAdModal';
+
+const { Option } = Select;
+
+const BookList: React.FC = () => {
+  const booksByGrade = useSelector((state: RootState) => state.books.booksByGrade);
+  const { grade } = useParams<{ grade: string }>();
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedGrade, setSelectedGrade] = useState<string | undefined>(grade);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const pageSize = 12;
+
+  useEffect(() => {
+    window.scrollTo(0, 150);
+  }, []); 
+
+  useEffect(() => {
+    const getBooks = () => {
+      if (grade) {
+        return booksByGrade[grade] || [];
+      } else {
+        return Object.values(booksByGrade).flat();
+      }
+    };
+    
+    const books = getBooks();
+    setFilteredBooks(shuffleArray(books)); // Sắp xếp ngẫu nhiên sách
+  }, [booksByGrade, grade]);
+
+  // Hàm trộn ngẫu nhiên
+  const shuffleArray = (array: Book[]): Book[] => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]]; // Hoán đổi
+    }
+    return array;
+  };
+
+  const filterBooks = (grade?: string, term: string = '') => {
+    let updatedBooks: Book[] = [];
+
+    if (grade) {
+      updatedBooks = booksByGrade[grade] || [];
+    } else {
+      updatedBooks = Object.values(booksByGrade).flat();
+    }
+
+    if (term) {
+      updatedBooks = updatedBooks.filter(book =>
+        book.title.toLowerCase().includes(term.toLowerCase())
+      );
+    }
+
+    setFilteredBooks(shuffleArray(updatedBooks)); // Sắp xếp ngẫu nhiên sau khi lọc
+  };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+    filterBooks(selectedGrade, term);
+  };
+
+  const handleGradeChange = (value: string | null) => {
+    setSelectedGrade(value || undefined);
+    filterBooks(value || undefined, searchTerm);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const currentBooks = filteredBooks.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
+  return (
+    <div className="flex flex-col md:flex-row">
+      <div className="md:w-1/4 p-4 md:p-6 border-r border-gray-300">
+        <BookCategory />
+      </div>
+      <div className="md:w-3/4 p-4 md:p-6">
+        <SwiperGallery />
+
+        <div className="mb-6">
+          <Select
+            placeholder="Chọn thể loại sách"
+            onChange={handleGradeChange}
+            className="w-full"
+            allowClear
+            value={selectedGrade}
+          >
+            <Option value="">Tất cả lớp</Option>
+            {[...Array(12).keys()].map(num => (
+              <Option key={num + 1} value={(num + 1).toString()}>
+                Lớp {num + 1}
+              </Option>
+            ))}
+          </Select>
+        </div>
+        <div className="mb-6">
+          <Input
+            prefix={<SearchOutlined />}
+            placeholder="Tìm kiếm sách..."
+            value={searchTerm}
+            onChange={handleSearch}
+            className="w-full"
+          />
+        </div>
+        <List
+          grid={{
+            gutter: 16,
+            xs: 2,
+            sm: 2,
+            md: 2,
+            lg: 4,
+            xl: 4,
+          }}
+          dataSource={currentBooks}
+          renderItem={(book) => (
+            <List.Item>
+              <Card
+                hoverable
+                style={{ width: '100%' }}
+                cover={
+                  <img
+                    alt={book.title}
+                    src={book.image}
+                    style={{ height: '250px', objectFit: 'cover', paddingTop: 20 }}
+                  />
+                }
+                className="shadow-lg rounded-md"
+              >
+                <div className="flex flex-col justify-between h-full">
+                  <div>
+                    <p className="font-semibold truncate max-w-200">{book.title}</p>
+                    <p className="text-base font-semibold text-red-600 mt-2">{book.price} VND</p>
+                    {/* Display discount information if applicable */}
+                    {book.isBestSeller && (
+                      <div className="absolute top-0 right-0 bg-red-600 text-white text-xs px-2 py-1 rounded-bl-md">
+                        Đã giảm giá: 0.2%
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-4">
+                    <Link to={`/Book/books/${book.id}`} className="text-blue-500 hover:underline">
+                      Xem chi tiết
+                    </Link>
+                  </div>
+                </div>
+              </Card>
+            </List.Item>
+          )}
+        />
+        <div className="mt-6 flex justify-center">
+          <Pagination
+            current={currentPage}
+            pageSize={pageSize}
+            total={filteredBooks.length}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+          />
+        </div>
+      </div>
+      <SmallAdModal />
+      <SmallAdModal/>
+    </div>
+  );
+};
+
+export default BookList;
